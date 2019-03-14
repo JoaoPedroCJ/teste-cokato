@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.manager')
 
 @section('cokatoContent')
 
@@ -134,6 +134,7 @@
                           <th style="width: 10px">Foto</th>
                           <th>Nome</th>
                           <th>E-mail</th>
+                          <th>Telefone</th>
                           <th>Ativo</th>
                           <th>Criado em</th>
                           <th>Ações</th>
@@ -141,7 +142,7 @@
                       </thead>
                       <tbody>
       
-                        <tr>
+                        <!--<tr>
                           <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
                           <td>Fulano</td>
                           <td>fulano@cokato.com.br</td>
@@ -179,7 +180,28 @@
                             <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
                             <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
                           </td>
-                        </tr>
+                        </tr>-->
+
+                        @if(@isset($users))
+                            
+                          @foreach($users as $u)
+                            <tr>
+                              <td>
+                                <img src="dist/img/users/{{$u->id}}.jpg" alt="User Image" class="img-circle img-sm">
+                              </td>
+                            <td>{{$u->name}}</td>
+                              <td>{{$u->email}}</td>
+                              <td>{{(strlen($u->phone)==11)? preg_replace('~(\d{2})[^\d]{0,8}(\d{1})[^\d]{0,8}(\d{4})[^\d]{0,8}(\d{4}).*~', '($1) $2 $3-$4', $u->phone):preg_replace('~(\d{2})[^\d]{0,7}(\d{4})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $u->phone)}}</td>
+                              <td>{{$u->active == 1?'Sim':'Não'}}</td>
+                              <td>{{date('d-m-Y', strtotime($u->created_at))}}</td>
+                              <td>
+                                <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
+                                <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                              </td>
+                            </tr>
+                          @endforeach
+
+                        @endif
                         
                       </tbody>
                     </table>

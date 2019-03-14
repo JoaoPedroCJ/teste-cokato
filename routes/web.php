@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,8 +18,15 @@ Route::get('/', function () {
 });
 
 Route::get('/users', function(){
-    return view('users');
+    //if(Auth::check()){
+    $users = DB::table('cokatos')->get();
+    return view('users')->with('users', $users);
+    //}
+    //else {
+        //return view('/login');
+    //}
 });
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
