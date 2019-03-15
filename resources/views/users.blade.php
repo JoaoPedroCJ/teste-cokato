@@ -213,6 +213,11 @@
                 </div>
       
                 <div class="box box-success">
+                    @if(session()->has('message'))
+                    <div class="alert alert-success">
+                        {{ session()->get('message') }}
+                    </div>
+                    @endif
                   @if(isset($users2)&&isset($editUser))
                   @foreach($users2 as $u2)
                   @if($u2->id==$editUser)

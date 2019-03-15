@@ -20,6 +20,7 @@ class CokatoController extends Controller
         if($request->has('active')){
             $isValid = 1;
         }
+        $phone = str_pad(preg_replace('/[^0-9]/', '', $request->input('phone')),10,"0",STR_PAD_LEFT);
 
         if($request->hasfile('photo')){
             $file = $request->file('photo');
@@ -31,14 +32,14 @@ class CokatoController extends Controller
             'name' => 'required|max:255',
             'role' => 'required|max:255',
             'email' => 'required|max:255',
-            'phone'=>'required|max:11'
+            'phone'=>'required'
         ]);
 
         $cokato = Cokato::create([
             'name'=>$request->input('name'),
             'role'=>$request->input('role'),
             'email'=>$request->input('email'),
-            'phone'=>$request->input('phone'),
+            'phone'=>$phone,
             'photo'=>$fileName,
             'active'=>$isValid
         ]);
