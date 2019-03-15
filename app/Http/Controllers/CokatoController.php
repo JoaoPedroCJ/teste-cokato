@@ -16,6 +16,10 @@ class CokatoController extends Controller
     public function store(Request $request){
 
         $fileName = 'default.jpg';
+        $isValid = 0;
+        if($request->has('active')){
+            $isValid = 1;
+        }
 
         if($request->hasfile('photo')){
             $file = $request->file('photo');
@@ -27,8 +31,7 @@ class CokatoController extends Controller
             'name' => 'required|max:255',
             'role' => 'required|max:255',
             'email' => 'required|max:255',
-            'phone'=>'required|max:11',
-            'active'=>'required'
+            'phone'=>'required|max:11'
         ]);
 
         $cokato = Cokato::create([
@@ -37,7 +40,7 @@ class CokatoController extends Controller
             'email'=>$request->input('email'),
             'phone'=>$request->input('phone'),
             'photo'=>$fileName,
-            'active'=>$request->input('active')
+            'active'=>$isValid
         ]);
 
         return redirect('/')->with('success','Information has been added');
@@ -48,12 +51,16 @@ class CokatoController extends Controller
     }
 
     public function update(Request $request, Cokato $cokato){
+        $isValid = 0;
+        if($request->has('active')){
+            $isValid = 1;
+        }
+
         $request->validate([
             'name' => 'required|max:255',
             'role' => 'required|max:255',
             'email' => 'required|max:255',
-            'phone'=>'required|max:11',
-            'active'=>'required'
+            'phone'=>'required|max:11'
         ]);
         $cokato->name = $request->input('name');
         $cokato->role = $request->input('role');
@@ -65,7 +72,7 @@ class CokatoController extends Controller
             $file->move(public_path().'/dist/img/users/', $fileName);
             $cokato->photo = $fileName;
         }
-        $cokato->active = $request->input('active');
+        $cokato->active = $isValid;
         $cokato->save();
         return redirect('/')->with('success','Information has been updated');
     }

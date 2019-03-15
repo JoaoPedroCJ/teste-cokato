@@ -162,7 +162,7 @@
                                 <form action="{{url('api/cokato', [$u->id])}}" method="POST">
                                   {{method_field('DELETE')}}
                                   @csrf
-                                  <input name="_method" class="btn btn-danger btn-xs btn-flat" type="submit" value="APAGAR" />
+                                  <input name="_method" class="btn btn-danger btn-xs btn-flat" type="submit" value="DELETE" />
                                 </form>
                               </td>
                             </tr>
@@ -247,7 +247,11 @@
                           </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox" name="active" id="InputActive" value="{{$u2->id}}" checked="checked">Ativo
+                            @if($u2->active==1)
+                            <input type="checkbox" name="active" id="InputActive" checked="checked">Ativo
+                            @else
+                            <input type="checkbox" name="active" id="InputActive">Ativo
+                            @endif
                           </label>
                         </div>
                       </div>
@@ -300,7 +304,7 @@
                           </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox" name="active" id="InputActive" value="1" checked="checked">Ativo
+                            <input type="checkbox" name="active" id="InputActive" value="1">Ativo
                           </label>
                         </div>
                       </div>
