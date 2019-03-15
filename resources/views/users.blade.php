@@ -2,13 +2,12 @@
 
 @section('cokatoContent')
 
-<div class="wrapper">
-
+<div class="wrapper"> 
         <!-- Main Header -->
         <header class="main-header">
       
           <!-- Logo -->
-          <a href="index2.html" class="logo">
+          <a href="#" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">COKATO</span>
             <!-- logo for regular state and mobile devices -->
@@ -29,14 +28,14 @@
                   <!-- Menu Toggle Button -->
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <!-- The user image in the navbar-->
-                    <img src="dist/img/avatar5.png" class="user-image" alt="User Image">
+                    <img src="/dist/img/avatar5.png" class="user-image" alt="User Image">
                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                    <span class="hidden-xs">Fulano Junior</span>
+                    <span class="hidden-xs">COKATO</span>
                   </a>
                   <ul class="dropdown-menu">
                     <!-- The user image in the menu -->
                     <li class="user-header">
-                      <img src="dist/img/avatar5.png" class="img-circle" alt="User Image">
+                      <img src="/dist/img/avatar5.png" class="img-circle" alt="User Image">
       
                       <p>
                         Fulano Junior - Web Developer
@@ -82,10 +81,10 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
               <div class="pull-left image">
-                <img src="dist/img/avatar5.png" class="img-circle" alt="User Image">
+                <img src="/dist/img/avatar5.png" class="img-circle" alt="User Image">
               </div>
               <div class="pull-left info">
-                <p>Fulano Junior</p>
+                <p>COKATO</p>
                 <!-- Status -->
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
               </div>
@@ -140,63 +139,31 @@
                           <th>Ações</th>
                         </tr>
                       </thead>
-                      <tbody>
-      
-                        <!--<tr>
-                          <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
-                          <td>Fulano</td>
-                          <td>fulano@cokato.com.br</td>
-                          <td>Sim</td>
-                          <td>13/03/2019</td>
-                          <td>
-                            <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
-                            <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
-                          </td>
-                        </tr>
-      
-                        <tr>
-                          <td>
-                            <img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm">
-                          </td>
-                          <td>Fulano</td>
-                          <td>fulano@cokato.com.br</td>
-                          <td>Sim</td>
-                          <td>13/03/2019</td>
-                          <td>
-                            <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
-                            <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
-                          </td>
-                        </tr>
-      
-                        <tr>
-                          <td>
-                            <img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm">
-                          </td>
-                          <td>Fulano</td>
-                          <td>fulano@cokato.com.br</td>
-                          <td>Não</td>
-                          <td>13/03/2019</td>
-                          <td>
-                            <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
-                            <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
-                          </td>
-                        </tr>-->
+                      <tbody id="user-table">
 
                         @if(@isset($users))
-                            
+                            <?php $users2 = $users ?>
                           @foreach($users as $u)
                             <tr>
                               <td>
-                                <img src="dist/img/users/{{$u->id}}.jpg" alt="User Image" class="img-circle img-sm">
+                                <img src="/dist/img/users/{{$u->photo}}" alt="User Image" class="img-circle img-sm">
                               </td>
-                            <td>{{$u->name}}</td>
+                              <td><b>{{$u->name}}</b><br/>{{$u->role}}</td>
                               <td>{{$u->email}}</td>
                               <td>{{(strlen($u->phone)==11)? preg_replace('~(\d{2})[^\d]{0,8}(\d{1})[^\d]{0,8}(\d{4})[^\d]{0,8}(\d{4}).*~', '($1) $2 $3-$4', $u->phone):preg_replace('~(\d{2})[^\d]{0,7}(\d{4})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $u->phone)}}</td>
                               <td>{{$u->active == 1?'Sim':'Não'}}</td>
                               <td>{{date('d-m-Y', strtotime($u->created_at))}}</td>
                               <td>
-                                <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
-                                <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                                <form action="{{url('edit', [$u->id])}}" method="POST">
+                                  {{method_field('GET')}}
+                                  @csrf
+                                  <input type="submit" class="btn btn-primary btn-xs btn-flat" name="edit" value="EDITAR">
+                                </form>
+                                <form action="{{url('api/cokato', [$u->id])}}" method="POST">
+                                  {{method_field('DELETE')}}
+                                  @csrf
+                                  <input name="_method" class="btn btn-danger btn-xs btn-flat" type="submit" value="APAGAR" />
+                                </form>
                               </td>
                             </tr>
                           @endforeach
@@ -219,9 +186,9 @@
                     <!-- small box -->
                     <div class="small-box bg-green">
                       <div class="inner">
-                        <h3>2</h3>
+                        <h3>1</h3>
                 
-                        <p>Cadastros Ativos</p>
+                        <p>Administradores</p>
                       </div>
                       <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -233,7 +200,7 @@
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                       <div class="inner">
-                        <h3>3</h3>
+                        <h3>{{count($users)}}</h3>
                 
                         <p>Cadastros</p>
                       </div>
@@ -246,304 +213,104 @@
                 </div>
       
                 <div class="box box-success">
+                  @if(isset($users2)&&isset($editUser))
+                  @foreach($users2 as $u2)
+                  @if($u2->id==$editUser)
                   <div class="box-header with-border">
-                    <h3 class="box-title">Novo Usuário</h3>
-                  </div>
-                  <!-- /.box-header -->
-                  <!-- form start -->
-                  <form role="form" id="form-user-create">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label for="exampleInputName">Nome</label>
-                        <input type="text" class="form-control" id="exampleInputName" placeholder="Digite o nome do usuário" name="name">
-                      </div>
-                      <div class="form-group">
-                        <label>Gênero</label>
-                        <div class="radio">
-                          <label for="exampleInputGenderM">
-                            <input type="radio" id="exampleInputGenderM" name="gender">
-                            Masculino</label>
-                        </div>
-                        <div class="radio">
-                          <label for="exampleInputGenderF">
-                            <input type="radio" id="exampleInputGenderF" name="gender">
-                            Feminino</label>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputBirth">Nascimento</label>
-                        <input type="date" class="form-control" id="exampleInputBirth" name="birth">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputCountry">País</label>
-                        <select class="form-control" id="exampleInputCountry" name="country">
-                          <option value="" selected="selected">Selecione um país</option>
-                          <option value="United States">United States</option>
-                          <option value="United Kingdom">United Kingdom</option>
-                          <option value="Afghanistan">Afghanistan</option>
-                          <option value="Albania">Albania</option>
-                          <option value="Algeria">Algeria</option>
-                          <option value="American Samoa">American Samoa</option>
-                          <option value="Andorra">Andorra</option>
-                          <option value="Angola">Angola</option>
-                          <option value="Anguilla">Anguilla</option>
-                          <option value="Antarctica">Antarctica</option>
-                          <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                          <option value="Argentina">Argentina</option>
-                          <option value="Armenia">Armenia</option>
-                          <option value="Aruba">Aruba</option>
-                          <option value="Australia">Australia</option>
-                          <option value="Austria">Austria</option>
-                          <option value="Azerbaijan">Azerbaijan</option>
-                          <option value="Bahamas">Bahamas</option>
-                          <option value="Bahrain">Bahrain</option>
-                          <option value="Bangladesh">Bangladesh</option>
-                          <option value="Barbados">Barbados</option>
-                          <option value="Belarus">Belarus</option>
-                          <option value="Belgium">Belgium</option>
-                          <option value="Belize">Belize</option>
-                          <option value="Benin">Benin</option>
-                          <option value="Bermuda">Bermuda</option>
-                          <option value="Bhutan">Bhutan</option>
-                          <option value="Bolivia">Bolivia</option>
-                          <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                          <option value="Botswana">Botswana</option>
-                          <option value="Bouvet Island">Bouvet Island</option>
-                          <option value="Brazil">Brasil</option>
-                          <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
-                          <option value="Brunei Darussalam">Brunei Darussalam</option>
-                          <option value="Bulgaria">Bulgaria</option>
-                          <option value="Burkina Faso">Burkina Faso</option>
-                          <option value="Burundi">Burundi</option>
-                          <option value="Cambodia">Cambodia</option>
-                          <option value="Cameroon">Cameroon</option>
-                          <option value="Canada">Canada</option>
-                          <option value="Cape Verde">Cape Verde</option>
-                          <option value="Cayman Islands">Cayman Islands</option>
-                          <option value="Central African Republic">Central African Republic</option>
-                          <option value="Chad">Chad</option>
-                          <option value="Chile">Chile</option>
-                          <option value="China">China</option>
-                          <option value="Christmas Island">Christmas Island</option>
-                          <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
-                          <option value="Colombia">Colombia</option>
-                          <option value="Comoros">Comoros</option>
-                          <option value="Congo">Congo</option>
-                          <option value="Congo, The Democratic Republic of The">Congo, The Democratic Republic of The</option>
-                          <option value="Cook Islands">Cook Islands</option>
-                          <option value="Costa Rica">Costa Rica</option>
-                          <option value="Cote D'ivoire">Cote D'ivoire</option>
-                          <option value="Croatia">Croatia</option>
-                          <option value="Cuba">Cuba</option>
-                          <option value="Cyprus">Cyprus</option>
-                          <option value="Czech Republic">Czech Republic</option>
-                          <option value="Denmark">Denmark</option>
-                          <option value="Djibouti">Djibouti</option>
-                          <option value="Dominica">Dominica</option>
-                          <option value="Dominican Republic">Dominican Republic</option>
-                          <option value="Ecuador">Ecuador</option>
-                          <option value="Egypt">Egypt</option>
-                          <option value="El Salvador">El Salvador</option>
-                          <option value="Equatorial Guinea">Equatorial Guinea</option>
-                          <option value="Eritrea">Eritrea</option>
-                          <option value="Estonia">Estonia</option>
-                          <option value="Ethiopia">Ethiopia</option>
-                          <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
-                          <option value="Faroe Islands">Faroe Islands</option>
-                          <option value="Fiji">Fiji</option>
-                          <option value="Finland">Finland</option>
-                          <option value="France">France</option>
-                          <option value="French Guiana">French Guiana</option>
-                          <option value="French Polynesia">French Polynesia</option>
-                          <option value="French Southern Territories">French Southern Territories</option>
-                          <option value="Gabon">Gabon</option>
-                          <option value="Gambia">Gambia</option>
-                          <option value="Georgia">Georgia</option>
-                          <option value="Germany">Germany</option>
-                          <option value="Ghana">Ghana</option>
-                          <option value="Gibraltar">Gibraltar</option>
-                          <option value="Greece">Greece</option>
-                          <option value="Greenland">Greenland</option>
-                          <option value="Grenada">Grenada</option>
-                          <option value="Guadeloupe">Guadeloupe</option>
-                          <option value="Guam">Guam</option>
-                          <option value="Guatemala">Guatemala</option>
-                          <option value="Guinea">Guinea</option>
-                          <option value="Guinea-bissau">Guinea-bissau</option>
-                          <option value="Guyana">Guyana</option>
-                          <option value="Haiti">Haiti</option>
-                          <option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option>
-                          <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
-                          <option value="Honduras">Honduras</option>
-                          <option value="Hong Kong">Hong Kong</option>
-                          <option value="Hungary">Hungary</option>
-                          <option value="Iceland">Iceland</option>
-                          <option value="India">India</option>
-                          <option value="Indonesia">Indonesia</option>
-                          <option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
-                          <option value="Iraq">Iraq</option>
-                          <option value="Ireland">Ireland</option>
-                          <option value="Israel">Israel</option>
-                          <option value="Italy">Italy</option>
-                          <option value="Jamaica">Jamaica</option>
-                          <option value="Japan">Japan</option>
-                          <option value="Jordan">Jordan</option>
-                          <option value="Kazakhstan">Kazakhstan</option>
-                          <option value="Kenya">Kenya</option>
-                          <option value="Kiribati">Kiribati</option>
-                          <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
-                          <option value="Korea, Republic of">Korea, Republic of</option>
-                          <option value="Kuwait">Kuwait</option>
-                          <option value="Kyrgyzstan">Kyrgyzstan</option>
-                          <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
-                          <option value="Latvia">Latvia</option>
-                          <option value="Lebanon">Lebanon</option>
-                          <option value="Lesotho">Lesotho</option>
-                          <option value="Liberia">Liberia</option>
-                          <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
-                          <option value="Liechtenstein">Liechtenstein</option>
-                          <option value="Lithuania">Lithuania</option>
-                          <option value="Luxembourg">Luxembourg</option>
-                          <option value="Macao">Macao</option>
-                          <option value="Macedonia, The Former Yugoslav Republic of">Macedonia, The Former Yugoslav Republic of</option>
-                          <option value="Madagascar">Madagascar</option>
-                          <option value="Malawi">Malawi</option>
-                          <option value="Malaysia">Malaysia</option>
-                          <option value="Maldives">Maldives</option>
-                          <option value="Mali">Mali</option>
-                          <option value="Malta">Malta</option>
-                          <option value="Marshall Islands">Marshall Islands</option>
-                          <option value="Martinique">Martinique</option>
-                          <option value="Mauritania">Mauritania</option>
-                          <option value="Mauritius">Mauritius</option>
-                          <option value="Mayotte">Mayotte</option>
-                          <option value="Mexico">Mexico</option>
-                          <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
-                          <option value="Moldova, Republic of">Moldova, Republic of</option>
-                          <option value="Monaco">Monaco</option>
-                          <option value="Mongolia">Mongolia</option>
-                          <option value="Montserrat">Montserrat</option>
-                          <option value="Morocco">Morocco</option>
-                          <option value="Mozambique">Mozambique</option>
-                          <option value="Myanmar">Myanmar</option>
-                          <option value="Namibia">Namibia</option>
-                          <option value="Nauru">Nauru</option>
-                          <option value="Nepal">Nepal</option>
-                          <option value="Netherlands">Netherlands</option>
-                          <option value="Netherlands Antilles">Netherlands Antilles</option>
-                          <option value="New Caledonia">New Caledonia</option>
-                          <option value="New Zealand">New Zealand</option>
-                          <option value="Nicaragua">Nicaragua</option>
-                          <option value="Niger">Niger</option>
-                          <option value="Nigeria">Nigeria</option>
-                          <option value="Niue">Niue</option>
-                          <option value="Norfolk Island">Norfolk Island</option>
-                          <option value="Northern Mariana Islands">Northern Mariana Islands</option>
-                          <option value="Norway">Norway</option>
-                          <option value="Oman">Oman</option>
-                          <option value="Pakistan">Pakistan</option>
-                          <option value="Palau">Palau</option>
-                          <option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option>
-                          <option value="Panama">Panama</option>
-                          <option value="Papua New Guinea">Papua New Guinea</option>
-                          <option value="Paraguay">Paraguay</option>
-                          <option value="Peru">Peru</option>
-                          <option value="Philippines">Philippines</option>
-                          <option value="Pitcairn">Pitcairn</option>
-                          <option value="Poland">Poland</option>
-                          <option value="Portugal">Portugal</option>
-                          <option value="Puerto Rico">Puerto Rico</option>
-                          <option value="Qatar">Qatar</option>
-                          <option value="Reunion">Reunion</option>
-                          <option value="Romania">Romania</option>
-                          <option value="Russian Federation">Russian Federation</option>
-                          <option value="Rwanda">Rwanda</option>
-                          <option value="Saint Helena">Saint Helena</option>
-                          <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-                          <option value="Saint Lucia">Saint Lucia</option>
-                          <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
-                          <option value="Saint Vincent and The Grenadines">Saint Vincent and The Grenadines</option>
-                          <option value="Samoa">Samoa</option>
-                          <option value="San Marino">San Marino</option>
-                          <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-                          <option value="Saudi Arabia">Saudi Arabia</option>
-                          <option value="Senegal">Senegal</option>
-                          <option value="Serbia and Montenegro">Serbia and Montenegro</option>
-                          <option value="Seychelles">Seychelles</option>
-                          <option value="Sierra Leone">Sierra Leone</option>
-                          <option value="Singapore">Singapore</option>
-                          <option value="Slovakia">Slovakia</option>
-                          <option value="Slovenia">Slovenia</option>
-                          <option value="Solomon Islands">Solomon Islands</option>
-                          <option value="Somalia">Somalia</option>
-                          <option value="South Africa">South Africa</option>
-                          <option value="South Georgia and The South Sandwich Islands">South Georgia and The South Sandwich Islands</option>
-                          <option value="Spain">Spain</option>
-                          <option value="Sri Lanka">Sri Lanka</option>
-                          <option value="Sudan">Sudan</option>
-                          <option value="Suriname">Suriname</option>
-                          <option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
-                          <option value="Swaziland">Swaziland</option>
-                          <option value="Sweden">Sweden</option>
-                          <option value="Switzerland">Switzerland</option>
-                          <option value="Syrian Arab Republic">Syrian Arab Republic</option>
-                          <option value="Taiwan, Province of China">Taiwan, Province of China</option>
-                          <option value="Tajikistan">Tajikistan</option>
-                          <option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
-                          <option value="Thailand">Thailand</option>
-                          <option value="Timor-leste">Timor-leste</option>
-                          <option value="Togo">Togo</option>
-                          <option value="Tokelau">Tokelau</option>
-                          <option value="Tonga">Tonga</option>
-                          <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                          <option value="Tunisia">Tunisia</option>
-                          <option value="Turkey">Turkey</option>
-                          <option value="Turkmenistan">Turkmenistan</option>
-                          <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
-                          <option value="Tuvalu">Tuvalu</option>
-                          <option value="Uganda">Uganda</option>
-                          <option value="Ukraine">Ukraine</option>
-                          <option value="United Arab Emirates">United Arab Emirates</option>
-                          <option value="United Kingdom">United Kingdom</option>
-                          <option value="United States">United States</option>
-                          <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
-                          <option value="Uruguay">Uruguay</option>
-                          <option value="Uzbekistan">Uzbekistan</option>
-                          <option value="Vanuatu">Vanuatu</option>
-                          <option value="Venezuela">Venezuela</option>
-                          <option value="Viet Nam">Viet Nam</option>
-                          <option value="Virgin Islands, British">Virgin Islands, British</option>
-                          <option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option>
-                          <option value="Wallis and Futuna">Wallis and Futuna</option>
-                          <option value="Western Sahara">Western Sahara</option>
-                          <option value="Yemen">Yemen</option>
-                          <option value="Zambia">Zambia</option>
-                          <option value="Zimbabwe">Zimbabwe</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">E-mail</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Digite o e-mail" name="email">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Senha</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Crie uma senha" name="password">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputFile">Foto</label>
-                        <input type="file" id="exampleInputFile" name="photo">
-                      </div>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" name="admin"> Administrador
-                        </label>
-                      </div>
+                      <h3 class="box-title">Editar Usuário</h3>
                     </div>
-                    <!-- /.box-body -->          
-                    <div class="box-footer">
-                      <button type="submit" class="btn btn-success">Salvar</button>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    
+                    <form role="form" id="form-user-create" method="POST" action="{{url('api/cokato', [$u2->id])}}" enctype="multipart/form-data">
+                      @csrf
+                      <div class="box-body">
+                        <div class="form-group">
+                          <label for="InputName">Nome</label>
+                          <input type="text" class="form-control" id="InputName" placeholder="Digite o nome" name="name" value="{{$u2->name}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputRole">Cargo</label>
+                            <input type="text" class="form-control" id="InputRole" placeholder="Digite o cargo" name="role" value="{{$u2->role}}">
+                        </div>
+                        <div class="form-group">
+                          <label for="InputEmail">E-mail</label>
+                          <input type="email" class="form-control" id="InputEmail" placeholder="Digite o e-mail" name="email" value="{{$u2->email}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputPhone">Telefone</label>
+                            <input type="text" class="form-control" id="InputPhone" placeholder="Digite o telefone" name="phone" value="{{$u2->phone}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputFile">Foto</label>
+                            <input type="file" id="InputFile" name="photo" value="{{$u2->photo}}">
+                          </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" name="active" id="InputActive" value="{{$u2->id}}" checked="checked">Ativo
+                          </label>
+                        </div>
+                      </div>
+                      <!-- /.box-body -->          
+                      <div class="box-footer">
+                        <form method="POST" action="{{url('api/cokato', [$u2->id])}}" enctype="multipart/form-data">
+                          {{method_field('PATCH')}}
+                          @csrf
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        </form>
+                        <br><br>
+                        <form method="POST" action="{{url('/')}}" enctype="multipart/form-data">
+                        {{method_field('GET')}}
+                          @csrf
+                        <button type="submit" class="btn btn-warning">Cancelar</button>
+                        </form>
+                      </div>
+                    </form>
+                  @endif
+                  @endforeach
+                  @else
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Novo Usuário</h3>
                     </div>
-                  </form>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    
+                    <form role="form" id="form-user-create" method="POST" action="{{url('api/cokato')}}" enctype="multipart/form-data">
+                      @csrf
+                      <div class="box-body">
+                        <div class="form-group">
+                          <label for="InputName">Nome</label>
+                          <input type="text" class="form-control" id="InputName" placeholder="Digite o nome" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputRole">Cargo</label>
+                            <input type="text" class="form-control" id="InputRole" placeholder="Digite o cargo" name="role">
+                        </div>
+                        <div class="form-group">
+                          <label for="InputEmail">E-mail</label>
+                          <input type="email" class="form-control" id="InputEmail" placeholder="Digite o e-mail" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputPhone">Telefone</label>
+                            <input type="text" class="form-control" id="InputPhone" placeholder="Digite o telefone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="InputFile">Foto</label>
+                            <input type="file" id="InputFile" name="photo">
+                          </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" name="active" id="InputActive" value="1" checked="checked">Ativo
+                          </label>
+                        </div>
+                      </div>
+                      <!-- /.box-body -->          
+                      <div class="box-footer">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                      </div>
+                    </form>
+                  @endif
+                  
                 </div>
       
               </div>

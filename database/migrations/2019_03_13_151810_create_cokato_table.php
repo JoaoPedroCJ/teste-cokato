@@ -17,8 +17,9 @@ class CreateCokatoTable extends Migration
             $table->bigIncrements('id');
             $table->string('role');
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('phone');
+            $table->string('photo')->default('default.jpg')->nullable();
             $table->boolean('active');
             $table->timestamps();
         });

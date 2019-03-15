@@ -15,6 +15,14 @@ class CokatoController extends Controller
 
     public function store(Request $request){
 
+        $fileName = 'default.jpg';
+
+        if($request->hasfile('photo')){
+            $file = $request->file('photo');
+            $fileName=time().$file->getClientOriginalName();
+            $file->move(public_path().'/dist/img/users/', $fileName);
+        }
+
         $request->validate([
             'name' => 'required|max:255',
             'role' => 'required|max:255',
@@ -28,14 +36,15 @@ class CokatoController extends Controller
             'role'=>$request->input('role'),
             'email'=>$request->input('email'),
             'phone'=>$request->input('phone'),
+            'photo'=>$fileName,
             'active'=>$request->input('active')
         ]);
 
-        return $request;
+        return redirect('/')->with('success','Information has been added');
     }
 
     public function show(Cokato $cokato){
-        return $cokato;
+        return redirect()->route('edit', ['id' => $cokato]);
     }
 
     public function update(Request $request, Cokato $cokato){
@@ -50,14 +59,20 @@ class CokatoController extends Controller
         $cokato->role = $request->input('role');
         $cokato->email = $request->input('email');
         $cokato->phone = $request->input('phone');
+        if($request->hasfile('photo')){
+            $file = $request->file('photo');
+            $fileName=time().$file->getClientOriginalName();
+            $file->move(public_path().'/dist/img/users/', $fileName);
+            $cokato->photo = $fileName;
+        }
         $cokato->active = $request->input('active');
         $cokato->save();
-        return $cokato;
+        return redirect('/')->with('success','Information has been updated');
     }
 
     public function destroy(Cokato $cokato){
         $cokato->delete();
 
-        return response()->json(['Success'=>true]);
+        return redirect('/')->with('success','Information has been deleted');
     }
 }

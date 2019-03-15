@@ -13,20 +13,15 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/users', function(){
-    //if(Auth::check()){
+Route::get('/', function(){
     $users = DB::table('cokatos')->get();
     return view('users')->with('users', $users);
-    //}
-    //else {
-        //return view('/login');
-    //}
 });
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('edit/{id}', function($id){
+    $users = DB::table('cokatos')->get();
+    return view('users')->with('users', $users)->with('editUser', $id);
+});
